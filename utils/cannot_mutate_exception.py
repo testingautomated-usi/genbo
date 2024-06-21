@@ -1,0 +1,2 @@
+class CannotMutateException(Exception):
+    pass
