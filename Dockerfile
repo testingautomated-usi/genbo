@@ -2,7 +2,7 @@ FROM tensorflow/tensorflow:2.3.4-gpu
 
 RUN apt-get install -y libsm6 libxext6 libxrender1
 
-COPY requirements_docker.txt $HOME
+COPY requirements_docker.txt /home
 
 RUN pip install -r requirements_docker.txt
 
