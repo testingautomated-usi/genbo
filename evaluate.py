@@ -122,7 +122,7 @@ if __name__ == "__main__":
     os.environ["CUDA_VISIBLE_DEVICES"] = "-1"
 
     folder = args.folder
-    logger = GlobalLog("collect_images")
+    logger = GlobalLog("evaluate")
 
     if args.seed == -1:
         try:
