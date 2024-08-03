@@ -156,6 +156,12 @@ parser.add_argument(
     "--num-restarts", help="Num restarts of the search", type=int, default=25
 )
 parser.add_argument(
+    "--lam",
+    help="Lambda parameter (only when individual_name_generator == 'one_plus_lambda')",
+    type=int,
+    default=1,
+)
+parser.add_argument(
     "--length-exponential-factor",
     help="Length exponential factor (only when individual_name_generator == 'sequence')",
     default=1.1,
@@ -337,6 +343,7 @@ if __name__ == "__main__":
         num_restarts=args.num_restarts,
         num_runs_failure=args.num_runs_failure,
         length_exponential_factor=args.length_exponential_factor,
+        lam=args.lam,
         maximize=True,
         seed_state_test_generator=seed_test_generator,
         bias=args.bias,
