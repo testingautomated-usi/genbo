@@ -1,5 +1,6 @@
 import argparse
 import os
+import time
 
 import numpy as np
 
@@ -93,6 +94,8 @@ if __name__ == "__main__":
 
     logg = GlobalLog("train_model")
 
+    start_time = time.perf_counter()
+
     if args.seed == -1:
         try:
             args.seed = np.random.randint(2**32 - 1)
@@ -152,3 +155,5 @@ if __name__ == "__main__":
         model_name_suffix=args.model_name_suffix,
         compile_model=not compile_model,
     )
+
+    logg.info(f"Time elapsed: {time.perf_counter() - start_time:.2f}s")
