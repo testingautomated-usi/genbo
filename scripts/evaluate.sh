@@ -38,8 +38,24 @@ if test -z "$donkey_exe_path"; then
 fi
 
 if test -z "$model"; then
-  echo Model needs to be provided
-  exit 1
+
+  if [[ "$track_num" < 0 ]]; then
+    echo "Track not set"
+    exit 1
+  fi
+
+  directory=$PWD
+  cd ..
+
+  echo "Collecting images on track $track_num using the autopilot agent"
+
+  python evaluate.py --env-name donkey --donkey-scene-name generated_track --track-num "$track_num" \
+    --donkey-exe-path "$donkey_exe_path" --seed 0 --num-episodes "$num_episodes" \
+    --agent-type autopilot --road-test-generator constant \
+    --max-steps "$max_steps" --add-to-port "$port" --headless
+
+  cd $directory
+  exit 0
 fi
 
 model_without_extension="${model%.*}"
@@ -55,10 +71,14 @@ fi
 directory=$PWD
 cd ..
 
-if [[ "$track_num" == -1 ]]; then
+if [[ "$track_num" < 0 ]]; then
+
+  echo Evaluating $model_without_extension on all tracks
 
   # try on all the tracks
   for i in 0 1 2 3 4 5 6 7 8; do
+
+    echo Evaluating $model_without_extension on track "$track_num"
 
     if [[ $model_without_extension == *"-run-"* ]]; then
       log_name=logs/"$model_without_extension"-track-"$i"-run-"$num_run".txt
