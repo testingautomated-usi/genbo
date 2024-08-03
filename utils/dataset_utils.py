@@ -181,12 +181,12 @@ def load_archive_into_dataset(
         if len(obs) > 0:
             length_dataset = len(obs)
             logg.info(
-                "Dataset size before filtering: {}.".format(obs.shape, actions.shape)
+                "Dataset size before filtering: {} {}.".format(obs.shape, actions.shape)
             )
         elif len(obs_validation) > 0:
             length_dataset = len(obs_validation)
             logg.info(
-                "Dataset size before filtering: {}.".format(
+                "Dataset size before filtering: {} {}.".format(
                     len(obs_validation), len(actions_validation)
                 )
             )
