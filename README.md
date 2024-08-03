@@ -172,12 +172,12 @@ bash -i ./retrain_models.sh --finetuning-archive donkey-2024_06_20_16_50_58-fine
 
 ```
 
-to retrain the `m2` model. On CPU it takes a long time; if you have an NVIDIA GPU and docker [docker](https://docs.docker.com/engine/install/ubuntu/) with the [NVIDIA container toolkit](https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/latest/install-guide.html) installed you can use the `Dockerfile` in this repository to build the container and run the previous command within it:
+to retrain the `m2` model. On CPU it takes a long time; if you have an NVIDIA GPU and [docker](https://docs.docker.com/engine/install/ubuntu/) with the [NVIDIA container toolkit](https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/latest/install-guide.html) installed you can use the `Dockerfile` in this repository to build the container and run the previous command within it:
 
 ```commandline
 
 docker build -t genbo:dev .
-docker run --rm --gpus all -it --mount type=bind,source="$(pwd)",target=/home/genbo --workdir /home/genbo --name bostage-container genbo:dev
+docker run --rm --gpus all -u ${UID} -it --mount type=bind,source="$(pwd)",target=/home/genbo --workdir /home/genbo --name bostage-container genbo:dev
 
 cd scripts
 ./retrain_models.sh --finetuning-archive donkey-2024_06_20_16_50_58-finetuning-agent-dave2-m2-generated_track-0 \
