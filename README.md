@@ -62,11 +62,11 @@ The program should print an image like the following on `logs/donkey_test.png`:
 
 ## 2. Execute the experiments
 
-Assuming that the commands below will be executed on Mac. 
+Assuming that the commands below will be executed on a Mac (CPU: 2.4 GHz 8-Core Intel Core i9, GPU: Intel UHD Graphics 630 1536 MB, RAM: 64 GB 2667 MHz DDR4). 
 
 ### 2.1 Search for boundary state pairs
 
-The following command search for boundary state pairs (called frontier pairs in the code) of the weakest model `donkey-dave2-m1.h5`.
+The following command search for boundary state pairs (called frontier pairs in the code) of the weakest model `donkey-dave2-m1.h5` (the search is executed on the training track `track_0`, which is called `T1` in the paper). The `length-exponential-factor` variable in the code corresponds to the parameter `L` in the paper.
 
 ```commandline
 
@@ -159,7 +159,7 @@ bash -i replay.sh --model-to-test autopilot \
 
 #### 2.3.2 Retraining
 
-The second step is to retrain the model on the newly created dataset (assuming it is named `donkey-2024_06_20_16_50_58-finetuning-agent-dave2-m2-generated_track-0*.npz`, placed under `logs`) merged with the original dataset (that you can donwload from [here](https://drive.switch.ch/index.php/s/TkftJgfbYD2T6IO), it is under `dataset`; the original dataset should be placed under `logs`). Type:
+The second step is to retrain the model on the newly created dataset (assuming it is named `donkey-2024_06_20_16_50_58-finetuning-agent-dave2-m2-generated_track-0*.npz`, placed under `logs`) merged with the original dataset (that you can download from [here](https://drive.switch.ch/index.php/s/TkftJgfbYD2T6IO), it is under `dataset`; the original dataset should be placed under `logs`). Type:
 
 ```commandline
 
@@ -172,15 +172,15 @@ bash -i ./retrain_models.sh --finetuning-archive donkey-2024_06_20_16_50_58-fine
 
 ```
 
-to retrain the `m2` model. On CPU it takes a long time; if you have an NVIDIA GPU and [docker](https://docs.docker.com/engine/install/ubuntu/) with the [NVIDIA container toolkit](https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/latest/install-guide.html) installed you can use the `Dockerfile` in this repository to build the container and run the previous command within it:
+to retrain the `m2` model. On CPU it takes a long time (on a MacBook with the specs described above it takes around 4 hours). if you have an NVIDIA GPU and [docker](https://docs.docker.com/engine/install/ubuntu/) with the [NVIDIA container toolkit](https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/latest/install-guide.html) installed, you can use the `Dockerfile` in this repository to build a Docker container and run the previous command within it:
 
 ```commandline
 
 docker build -t genbo:dev .
-docker run --rm --gpus all -u ${UID} -it --mount type=bind,source="$(pwd)",target=/home/genbo --workdir /home/genbo --name bostage-container genbo:dev
+docker run --rm --gpus all -u ${UID} -it --mount type=bind,source="$(pwd)",target=/home/genbo --workdir /home/genbo --name bostage-container genbo:dev bash
 
 cd scripts
-./retrain_models.sh --finetuning-archive donkey-2024_06_20_16_50_58-finetuning-agent-dave2-m2-generated_track-0 \
+bash -i ./retrain_models.sh --finetuning-archive donkey-2024_06_20_16_50_58-finetuning-agent-dave2-m2-generated_track-0 \
     --original-archive donkey-archive-agent-autopilot-episodes-6-generated_track-0 \
     --model-name-suffix donkey-dave2-m2
 
@@ -188,9 +188,23 @@ exit
 
 ```
 
+On an Ubuntu machine with a Quadro RTX 4000 with 8GB of VRAM the retraining takes around 1 hour. The command redirects the output to `logs/models/donkey-dave2-m2-run-1.txt`; the model is saved in `logs/models/donkey-dave2-m2-run-1`, while the plot of the training and validation loss is placed in `logs/models/donkey-dave-2-run-1.pdf`. The total number of epochs is set to 1k, but the training stops once the validation loss does not improve for more than 10 epochs.
+
+The `donkey-archive-agent-autopilot-episodes-6-generated_track-0` file contains the images and labels of six episodes of the autopilot driving on `track_0`, and it is used to train the [dave2 models](https://drive.switch.ch/index.php/s/TkftJgfbYD2T6IO). Optionally, it can be obtained using the following command (it takes around 1 minute):
+
+```commandline
+
+cd scripts
+conda activate genbo
+
+bash -i ./evaluate.sh --track-num 0 --num-episodes 6 --max-steps 1400 \
+    --donkey-exe-path ~/donkey-genbo-mac/donkey_sim.app
+
+```
+
 #### 2.3.3 Evaluating
 
-The last step is to evaluate the original and retrained models on eight evaluation tracks (plus the original training track, i.e., track `0`). We first evaluate the original `m2` model on all the tracks as follow:
+The last step is to evaluate the original and retrained models on eight evaluation tracks (plus the original training track, i.e., `track_0`). We first evaluate the original `m2` model on all the tracks as follow:
 
 ```commandline
 
