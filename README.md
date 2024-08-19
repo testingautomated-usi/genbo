@@ -22,21 +22,11 @@ The raw data, the models, and the driving simulators are stored [here](https://d
 
 3) Activate the environment: `conda activate genbo`
 
-4) Install the requirements: `pip install -r requirements.txt`
+4) Downgrade the version of `setuptools` and `wheel` to be compatible with the `gym==0.21.0` library: `pip install setuptools==65.5.0 "wheel<0.40.0"`
 
-If the `gym` library gives the following error
+5) Downgrade the version of `pip` to enable a correct installation of the `gym==0.21.0` library: `pip install "pip<24.2"`
 
-```commandline
-error in gym setup command: 'extras_require' must be a dictionary...
-```
-
-then type
-
-```commandline
-pip install setuptools==65.5.0 "wheel<0.40.0"
-```
-
-and repeat step 4.
+6) Install the requirements: `pip install -r requirements.txt`
 
 Download the simulator from [here](https://drive.switch.ch/index.php/s/TkftJgfbYD2T6IO).
 
