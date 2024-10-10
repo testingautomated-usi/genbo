@@ -220,7 +220,7 @@ bash -i ./evaluate.sh --model donkey-dave2-m2-run-1 --num-episodes 5 \
 
 Since we have only one run, i.e., one search run producing the boundary state pairs, we use `num_run=1`. The command needs to be repeated for each retraining run.
 
-#### 2.3.3 Process evaluation
+#### 2.3.4 Process evaluation
 
 The last step consists of processing the evaluation logs as follow:
 
