@@ -78,7 +78,7 @@ if [[ "$track_num" < 0 ]]; then
   # try on all the tracks
   for i in 0 1 2 3 4 5 6 7 8; do
 
-    echo Evaluating $model_without_extension on track "$track_num"
+    echo Evaluating $model_without_extension on track "$i"
 
     if [[ $model_without_extension == *"-run-"* ]]; then
       log_name=logs/"$model_without_extension"-track-"$i"-run-"$num_run".txt
