@@ -261,3 +261,25 @@ DEBUG:collect_images:Success rate: 0.20
 DEBUG:collect_images:Success rate: 0.00
 ```
 
+## 3. Citing the Project
+
+To cite this repository in publications:
+
+```bibtex
+@article{DBLP:journals/tse/BiagiolaT24,
+  author       = {Matteo Biagiola and
+                  Paolo Tonella},
+  title        = {Boundary State Generation for Testing and Improvement of Autonomous
+                  Driving Systems},
+  journal      = {{IEEE} Trans. Software Eng.},
+  volume       = {50},
+  number       = {8},
+  pages        = {2040--2053},
+  year         = {2024},
+  url          = {https://doi.org/10.1109/TSE.2024.3420816},
+  doi          = {10.1109/TSE.2024.3420816},
+  timestamp    = {Sun, 08 Sep 2024 16:06:26 +0200},
+  biburl       = {https://dblp.org/rec/journals/tse/BiagiolaT24.bib},
+  bibsource    = {dblp computer science bibliography, https://dblp.org}
+}
+```
